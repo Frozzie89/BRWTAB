@@ -26,15 +26,11 @@ export class NewGroupComponent {
   titleExists = (title: string) => this.groupsService.titleAlreadyExists(title);
 
   createGroup() {
-    if (!this.icon) {
-      return;
-    }
-
     this.create.emit({
       title: this.title,
       description: this.description,
       color: this.color,
-      icon: this.icon,
+      icon: this.icon ?? '',
     });
 
     this.cleanup();

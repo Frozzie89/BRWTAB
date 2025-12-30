@@ -2,14 +2,18 @@
   @for (item of listGroup(); track $index) {
     <div class="card-container">
       <div class="upper-container" [style.background-color]="item.color">
-        <div class="image-container">
-          <img [src]="item.icon" alt="list group image" />
-        </div>
+        @if (item.icon) {
+          <div class="image-container">
+            <img [src]="item.icon" alt="list group image" />
+          </div>
+        }
       </div>
 
       <div class="lower-container">
         <h3>{{ item.title }}</h3>
-        <p>{{ item.description }}</p>
+        @if (item.description) {
+          <p>{{ item.description }}</p>
+        }
       </div>
     </div>
   }
