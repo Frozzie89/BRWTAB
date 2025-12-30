@@ -17,14 +17,26 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
-
-  h2 {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 700;
-  }
 }
 
+.panel-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+
+  h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .subtitle {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+}
 .form {
   display: flex;
   flex-direction: column;
