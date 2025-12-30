@@ -6,6 +6,10 @@ body {
   font-family: 'Space Mono', monospace;
 }
 
+input {
+  font-family: 'Space Mono', monospace;
+}
+
 .btn {
   display: inline-block;
   padding: 10px 20px;
@@ -25,4 +29,10 @@ body {
     border: 3px solid #ff006e;
     box-shadow: none;
   }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }

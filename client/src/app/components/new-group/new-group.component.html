@@ -1,4 +1,42 @@
-<div class="panel-header">
-  <h2>New group form (work in progress)</h2>
-  <button class="btn" (click)="cancel.emit()">Close</button>
+<div class="panel-wrapper">
+  <div class="panel">
+    <div class="panel-header">
+      <h1>New group</h1>
+      <i class="return bi bi-arrow-right" (click)="cancel.emit()"></i>
+    </div>
+
+    <form (ngSubmit)="createGroup()" #groupForm="ngForm" class="form">
+      <div class="form-group">
+        <label for="groupName">Group Name</label>
+        <input
+          type="text"
+          id="groupName"
+          name="groupName"
+          class="form-control"
+          required
+          minlength="2"
+          [(ngModel)]="groupName"
+          placeholder="e.g. Best weekend trips"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="groupDescription">Description</label>
+        <textarea
+          id="groupDescription"
+          name="groupDescription"
+          class="form-control"
+          rows="4"
+          [(ngModel)]="groupDescription"
+          placeholder="What is this group for?"
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="!groupForm.form.valid">
+          Create Group
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
