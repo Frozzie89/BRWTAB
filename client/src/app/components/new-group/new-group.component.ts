@@ -11,14 +11,14 @@ import { GroupsService } from '../../services/groups.service';
   styleUrl: './new-group.component.scss',
 })
 export class NewGroupComponent {
-  @Output() cancel = new EventEmitter<void>();
+  @Output() dismiss = new EventEmitter<void>();
   @Output() create = new EventEmitter<ListGroupItem>();
 
   groupsService = inject(GroupsService);
 
-  title: string = '';
-  description: string = '';
-  color: string = '#ffffffff';
+  title = '';
+  description = '';
+  color = '#ffffffff';
   icon: string | null = null;
 
   private iconObjectUrl: string | null = null;
@@ -37,7 +37,7 @@ export class NewGroupComponent {
   }
 
   onCancel() {
-    this.cancel.emit();
+    this.dismiss.emit();
     this.cleanup();
   }
 

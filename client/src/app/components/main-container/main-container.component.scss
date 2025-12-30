@@ -20,6 +20,7 @@
 }
 
 .backdrop {
+  all: unset;
   position: absolute;
   inset: 0;
   opacity: 0;

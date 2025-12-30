@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { ListGroup } from '../../interfaces/list-group';
 import { GroupsService } from '../../services/groups.service';
 
 @Component({
