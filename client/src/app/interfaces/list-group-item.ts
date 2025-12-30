@@ -1,4 +1,4 @@
-export type ListGroupItem = {
+export interface ListGroupItem {
   title: string;
   description: string;
-};
+}

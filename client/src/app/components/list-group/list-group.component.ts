@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ListGroup } from '../../types/list-group';
+import { ListGroup } from '../../interfaces/list-group';
 
 @Component({
   selector: 'app-list-group',
