@@ -36,6 +36,25 @@ export class NewGroupComponent {
       color: this.color,
       icon: this.icon,
     });
+
+    this.cleanup();
+  }
+
+  onCancel() {
+    this.cancel.emit();
+    this.cleanup();
+  }
+
+  cleanup() {
+    if (this.iconObjectUrl) {
+      URL.revokeObjectURL(this.iconObjectUrl);
+      this.iconObjectUrl = null;
+    }
+
+    this.icon = null;
+    this.title = '';
+    this.description = '';
+    this.color = '#ffffffff';
   }
 
   onIconSelected(event: Event) {

@@ -2,7 +2,7 @@
   <div class="panel">
     <div class="panel-header">
       <h1>New group</h1>
-      <i class="return bi bi-arrow-right" (click)="cancel.emit()"></i>
+      <i class="return bi bi-arrow-right" (click)="onCancel()"></i>
     </div>
 
     <form (ngSubmit)="createGroup()" #groupForm="ngForm" class="form">
