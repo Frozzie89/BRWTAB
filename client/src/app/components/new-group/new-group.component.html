@@ -62,9 +62,16 @@
           id="groupIcon"
           name="groupIcon"
           class="form-control"
+          accept="image/*"
           (change)="onIconSelected($event)"
         />
       </div>
+
+      @if (icon) {
+        <div class="icon-preview">
+          <img [src]="icon" alt="Icon preview" />
+        </div>
+      }
 
       <div class="form-actions">
         <button type="submit" class="btn btn-primary" [disabled]="!groupForm.form.valid">

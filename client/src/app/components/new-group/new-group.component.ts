@@ -19,11 +19,17 @@ export class NewGroupComponent {
   title: string = '';
   description: string = '';
   color: string = '#ffffffff';
-  icon: any;
+  icon: string | null = null;
+
+  private iconObjectUrl: string | null = null;
 
   titleExists = (title: string) => this.groupsService.titleAlreadyExists(title);
 
   createGroup() {
+    if (!this.icon) {
+      return;
+    }
+
     this.create.emit({
       title: this.title,
       description: this.description,
@@ -32,7 +38,27 @@ export class NewGroupComponent {
     });
   }
 
-  onIconSelected($event: Event) {
-    this.icon = ($event.target as HTMLInputElement).value;
+  onIconSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+
+    // cleanup previous URL
+    if (this.iconObjectUrl) {
+      URL.revokeObjectURL(this.iconObjectUrl);
+      this.iconObjectUrl = null;
+    }
+
+    if (!file) {
+      this.icon = null;
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      this.icon = null;
+      return;
+    }
+
+    this.iconObjectUrl = URL.createObjectURL(file);
+    this.icon = this.iconObjectUrl;
   }
 }
