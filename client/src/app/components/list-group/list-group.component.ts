@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ListGroup } from '../../interfaces/list-group';
-import { GroupsService } from '../../service/groups.service';
+import { GroupsService } from '../../services/groups.service';
 
 @Component({
   selector: 'app-list-group',

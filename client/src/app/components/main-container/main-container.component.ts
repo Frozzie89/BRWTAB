@@ -2,7 +2,7 @@ import { Component, HostListener, inject } from '@angular/core';
 import { ListGroupComponent } from '../list-group/list-group.component';
 import { NewGroupComponent } from '../new-group/new-group.component';
 import { ListGroupItem } from '../../interfaces/list-group-item';
-import { GroupsService } from '../../service/groups.service';
+import { GroupsService } from '../../services/groups.service';
 
 @Component({
   selector: 'app-main-container',

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { ListGroupItem } from '../../interfaces/list-group-item';
 import { FormsModule } from '@angular/forms';
-import { GroupsService } from '../../service/groups.service';
+import { GroupsService } from '../../services/groups.service';
 
 @Component({
   selector: 'app-new-group',
