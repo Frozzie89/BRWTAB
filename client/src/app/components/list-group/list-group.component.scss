@@ -16,18 +16,17 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-}
 
-.card-container:hover {
-  box-shadow: 4px 4px 0 #000;
-  transform: translate(4px, 4px);
-  transition: all 0.2s ease;
-}
+  &:hover {
+    box-shadow: 4px 4px 0 #000;
+    transform: translate(4px, 4px);
+  }
 
-.card-container:active {
-  box-shadow: none;
-  transform: translate(8px, 8px);
-  transition: all 0.1s ease;
+  &:active {
+    box-shadow: none;
+    transform: translate(8px, 8px);
+    transition: all 0.1s ease;
+  }
 }
 
 .upper-container {
@@ -47,58 +46,88 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-.image-container img {
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
-  border: 2px solid #000;
+  img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border: 2px solid #000;
+  }
 }
 
 .lower-container {
   padding: 60px 20px 30px;
   text-align: center;
+
+  h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+  }
+
+  h4 {
+    margin: 5px 0 15px;
+    font-size: 14px;
+    color: #333;
+    font-weight: normal;
+  }
+
+  p {
+    font-size: 14px;
+    color: #000;
+    border: 2px dashed #000;
+    padding: 10px;
+    background: #f0f0f0;
+    margin-bottom: 20px;
+  }
 }
 
-.lower-container h3 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: bold;
-  color: #000;
+.page {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
 }
 
-.lower-container h4 {
-  margin: 5px 0 15px;
-  font-size: 14px;
-  color: #333;
-  font-weight: normal;
+.main,
+.panel {
+  transition: transform 520ms cubic-bezier(0.25, 0.8, 0.25, 1);
+  will-change: transform;
+  min-height: 100vh;
 }
 
-.lower-container p {
-  font-size: 14px;
-  color: #000;
-  border: 2px dashed #000;
-  padding: 10px;
-  background: #f0f0f0;
-  margin-bottom: 20px;
+.panel {
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: white;
+  z-index: 20;
 }
 
-.btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background: #ff006e;
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-  border: 3px solid #000;
-  box-shadow: 4px 4px 0 #000;
-  transition: all 0.2s ease;
+.backdrop {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+  z-index: 10;
 }
 
-.btn:hover {
-  background: #fff;
-  color: #ff006e;
-  border: 3px solid #ff006e;
-  box-shadow: none;
+.page.is-adding {
+  .main {
+    transform: translateX(100%);
+  }
+  .panel {
+    transform: translateX(0);
+  }
+  .backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .page.is-adding .main {
+    transform: translateX(0);
+  }
 }
