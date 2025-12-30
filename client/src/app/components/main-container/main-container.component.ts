@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ListGroupComponent } from '../list-group/list-group.component';
 import { NewGroupComponent } from '../new-group/new-group.component';
 
@@ -16,5 +16,10 @@ export class MainContainerComponent {
   }
   closeAdd() {
     this.isAdding = false;
+  }
+
+  @HostListener('document:keydown.escape')
+  onEsc() {
+    if (this.isAdding) this.closeAdd();
   }
 }
