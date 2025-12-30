@@ -114,11 +114,11 @@ button[disabled] {
 .return {
   font-size: 2rem;
   cursor: pointer;
-  color: #ff006e;
+  color: #ff6bab;
   transition: color 160ms ease;
 
   &:hover {
-    color: #ff6bab;
+    color: #ff006e;
   }
 }
 
