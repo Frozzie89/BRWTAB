@@ -3,8 +3,8 @@
 Phrase Ranker With Template
 
 This program is a simple yet powerful text-based entry voting platform.
-You can use it for very different things, few ranking ideas:
-website, software, name, quotes, jokes, for now, anything that's unformated (at least for now) text based is doable!
+You can use it for listing anything ! 
+Few ranking ideas: websites, software, names, quotes, jokes, for now, anything that's unformatted (at least for now) text based is doable!
 
 An important note is that it uses OAuth2 and ONLY discord as of now, this is a indepedent choice, we will concider adding options in the futur.
 
