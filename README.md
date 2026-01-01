@@ -2,7 +2,7 @@
 
 Phrase Ranker With Template
 
-This program is a simple yet powerfull text-based entry voting platform.
+This program is a simple yet powerful text-based entry voting platform.
 You can use it for very different things, few ranking ideas:
 website, software, name, quotes, jokes, for now, anything that's unformated (at least for now) text based is doable!
 
