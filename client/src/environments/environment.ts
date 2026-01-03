@@ -1,4 +1,9 @@
 export const environment = {
-  production: false,
+  production: true,
   pocketbaseUrl: 'http://localhost:8090',
+  devAutoLogin: {
+    enabled: false,
+    email: '',
+    password: '',
+  },
 };
