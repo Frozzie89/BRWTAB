@@ -1,70 +1,65 @@
 import { TestBed } from '@angular/core/testing';
-
 import { GroupsService } from './groups.service';
+import { GroupsRepository } from '../repositories/list-group-repository';
+import type { Group } from '../interfaces/group';
 
 describe('GroupsService', () => {
   let service: GroupsService;
+  let repo: jasmine.SpyObj<GroupsRepository>;
 
-  // mock groups items
-  const mockGroups = [
+  const mockGroups: Group[] = [
     {
+      id: '1',
       title: 'Item 1',
       description: 'Description for Item 1',
-      icon: 'https://picsum.photos/200?random=1000',
+      iconUrl: 'https://picsum.photos/200?random=1000',
       color: '#ff0000',
     },
     {
+      id: '2',
       title: 'Item 2',
       description: 'Description for Item 2',
-      icon: 'https://picsum.photos/200?random=1001',
+      iconUrl: 'https://picsum.photos/200?random=1001',
       color: '#00ff00',
     },
     {
+      id: '3',
       title: 'Item 3',
       description: 'Description for Item 3',
-      icon: 'https://picsum.photos/200?random=1002',
+      iconUrl: 'https://picsum.photos/200?random=1002',
       color: '#0000ff',
     },
   ];
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    repo = jasmine.createSpyObj<GroupsRepository>('GroupsRepository', [
+      'list',
+      'create',
+      'delete',
+      'subscribeAll',
+    ]);
+
+    TestBed.configureTestingModule({
+      providers: [GroupsService, { provide: GroupsRepository, useValue: repo }],
+    });
+
     service = TestBed.inject(GroupsService);
-
-    // ensure groups are cleared and set mock groups before each test
-    service.clear();
-    mockGroups.forEach(group => service.add(group));
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('should load groups from repository', async () => {
+    repo.list.and.resolveTo(mockGroups);
+
+    await service.load();
+
+    expect(service.groups()).toEqual(mockGroups);
+    expect(service.count()).toBe(3);
   });
 
-  it('should add a new group', () => {
-    const newGroup = {
-      title: 'Item 4',
-      description: 'Description for Item 4',
-      icon: 'https://picsum.photos/200?random=1001',
-      color: '#000000',
-    };
-    service.add(newGroup);
-    expect(service.groups().length).toBe(4);
-    expect(service.groups()[0]).toEqual(newGroup);
-  });
+  it('should check if title already exists', async () => {
+    repo.list.and.resolveTo(mockGroups);
+    await service.load();
 
-  it('should remove a group by title', () => {
-    service.removeByTitle('Item 2');
-    expect(service.groups().length).toBe(2);
-    expect(service.titleAlreadyExists('Item 2')).toBeFalse();
-  });
-
-  it('should clear all groups', () => {
-    service.clear();
-    expect(service.groups().length).toBe(0);
-  });
-
-  it('should check if title already exists', () => {
     expect(service.titleAlreadyExists('Item 1')).toBeTrue();
-    expect(service.titleAlreadyExists('Nonexistent Item')).toBeFalse();
+    expect(service.titleAlreadyExists('Item 4')).toBeFalse();
   });
 });

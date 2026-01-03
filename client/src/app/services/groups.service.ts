@@ -1,51 +1,65 @@
-import { computed, Injectable, signal } from '@angular/core';
-import { ListGroupItem } from '../interfaces/list-group-item';
+import { computed, DestroyRef, inject, Injectable, signal } from '@angular/core';
+import { CreateGroupPayload, Group } from '../interfaces/group';
+import { GroupsRepository, PbGroupRecord } from '../repositories/list-group-repository';
+import { from } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GroupsService {
-  private readonly _groups = signal<ListGroupItem[]>([]);
+  private readonly groupsRepository = inject(GroupsRepository);
+  private readonly destroyRef = inject(DestroyRef);
 
-  constructor() {
-    this._groups.set([
-      {
-        title: 'Item 1',
-        description: 'Description for Item 1',
-        icon: 'https://picsum.photos/200?random=' + Math.floor(Math.random() * 1000),
-        color: '#ffe600',
-      },
-      {
-        title: 'Item 2',
-        description: 'Description for Item 2',
-        icon: 'https://picsum.photos/200?random=' + Math.floor(Math.random() * 1000),
-        color: '#ff006e',
-      },
-      {
-        title: 'Item 3',
-        description: 'Description for Item 3',
-        icon: 'https://picsum.photos/200?random=' + Math.floor(Math.random() * 1000),
-        color: '#5aed1bff',
-      },
-    ]);
-  }
-
+  private readonly _groups = signal<Group[]>([]);
   readonly groups = this._groups.asReadonly();
   readonly count = computed(() => this._groups().length);
+
+  private realtimeEnabled = false;
+
+  async load() {
+    const list = await this.groupsRepository.list();
+    this._groups.set(list);
+  }
 
   titleAlreadyExists(title: string) {
     return this._groups().some(g => g.title === title);
   }
 
-  add(group: ListGroupItem) {
-    this._groups.update(groups => [group, ...groups]);
+  async add(group: CreateGroupPayload) {
+    return await this.groupsRepository.create(group);
   }
 
-  removeByTitle(title: string) {
-    this._groups.update(groups => groups.filter(g => g.title !== title));
+  async removeById(id: string) {
+    await this.groupsRepository.delete(id);
+    this._groups.update(groups => groups.filter(g => g.id !== id));
   }
 
-  clear() {
-    this._groups.set([]);
+  enableRealtime() {
+    if (this.realtimeEnabled) {
+      return;
+    }
+
+    this.realtimeEnabled = true;
+
+    from(
+      this.groupsRepository.subscribeAll(e => {
+        if (e.action === 'create') {
+          const group = this.groupsRepository.toGroup(e.record as PbGroupRecord);
+          this._groups.update(gs => [group, ...gs]);
+        }
+
+        if (e.action === 'delete') {
+          this._groups.update(gs => gs.filter(g => g.id !== e.record.id));
+        }
+
+        if (e.action === 'update') {
+          const updated = this.groupsRepository.toGroup(e.record as PbGroupRecord);
+          this._groups.update(gs => gs.map(g => (g.id === updated.id ? updated : g)));
+        }
+      }),
+    )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
 }
