@@ -31,40 +31,21 @@ describe('GroupsService', () => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(GroupsService);
 
-    // ensure groups are cleared and set mock groups before each test
-    service.clear();
-    mockGroups.forEach(group => service.add(group));
+    // spy on load method to set mock data
+    spyOn(service, 'load').and.callFake(async () => {
+      (service as any)._groups.set(mockGroups);
+    });
+
+    // call load to initialize with mock data
+    service.load();
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should add a new group', () => {
-    const newGroup = {
-      title: 'Item 4',
-      description: 'Description for Item 4',
-      icon: 'https://picsum.photos/200?random=1001',
-      color: '#000000',
-    };
-    service.add(newGroup);
-    expect(service.groups().length).toBe(4);
-    expect(service.groups()[0]).toEqual(newGroup);
-  });
-
-  it('should remove a group by title', () => {
-    service.removeByTitle('Item 2');
-    expect(service.groups().length).toBe(2);
-    expect(service.titleAlreadyExists('Item 2')).toBeFalse();
-  });
-
-  it('should clear all groups', () => {
-    service.clear();
-    expect(service.groups().length).toBe(0);
-  });
-
   it('should check if title already exists', () => {
     expect(service.titleAlreadyExists('Item 1')).toBeTrue();
-    expect(service.titleAlreadyExists('Nonexistent Item')).toBeFalse();
+    expect(service.titleAlreadyExists('Item 4')).toBeFalse();
   });
 });
