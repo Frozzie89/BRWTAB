@@ -6,10 +6,9 @@ services:
       - "8090:8090"
     volumes:
       - ./database:/pb
-      - ./docker/pocketbase/entrypoint.sh:/entrypoint.sh:ro
-    working_dir: /pb
-    entrypoint: ["/bin/sh", "/entrypoint.sh"]
     user: "0:0"
+    entrypoint: ["pocketbase"]
+    command: ["serve", "--http=0.0.0.0:8090", "--dir=/pb/pb_data"]
 
   client:
     image: prwt-client
