@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { PocketbaseClientService } from '../services/pocketbase-client.service';
 import type { Group, CreateGroupPayload } from '../interfaces/group';
+import { UnsubscribeFunc } from 'pocketbase';
 
 export interface PbGroupRecord {
   id: string;
@@ -42,11 +43,11 @@ export class GroupsRepository {
     return this.pb.collection(this.collection).delete(id);
   }
 
-  subscribeAll(onEvent: (e: any) => void) {
+  subscribeAll(onEvent: (e: any) => void): Promise<UnsubscribeFunc> {
     return this.pb.collection(this.collection).subscribe('*', onEvent);
   }
 
-  unsubscribeAll() {
+  unsubscribeAll(): Promise<void> {
     return this.pb.collection(this.collection).unsubscribe('*');
   }
 
@@ -60,7 +61,7 @@ export class GroupsRepository {
       title: r.title,
       description: r.description,
       color: r.color,
-      iconUrl: r.icon ? this.pb.files.getUrl(r as any, r.icon) : null,
+      iconUrl: r.icon ? this.pb.files.getURL(r as any, r.icon) : null,
     };
   }
 }
