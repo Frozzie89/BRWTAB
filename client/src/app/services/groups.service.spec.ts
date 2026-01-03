@@ -1,50 +1,64 @@
 import { TestBed } from '@angular/core/testing';
-
 import { GroupsService } from './groups.service';
+import { GroupsRepository } from '../repositories/list-group-repository';
+import type { Group } from '../interfaces/group';
 
 describe('GroupsService', () => {
   let service: GroupsService;
+  let repo: jasmine.SpyObj<GroupsRepository>;
 
-  // mock groups items
-  const mockGroups = [
+  const mockGroups: Group[] = [
     {
+      id: '1',
       title: 'Item 1',
       description: 'Description for Item 1',
-      icon: 'https://picsum.photos/200?random=1000',
+      iconUrl: 'https://picsum.photos/200?random=1000',
       color: '#ff0000',
     },
     {
+      id: '2',
       title: 'Item 2',
       description: 'Description for Item 2',
-      icon: 'https://picsum.photos/200?random=1001',
+      iconUrl: 'https://picsum.photos/200?random=1001',
       color: '#00ff00',
     },
     {
+      id: '3',
       title: 'Item 3',
       description: 'Description for Item 3',
-      icon: 'https://picsum.photos/200?random=1002',
+      iconUrl: 'https://picsum.photos/200?random=1002',
       color: '#0000ff',
     },
   ];
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(GroupsService);
+    repo = jasmine.createSpyObj<GroupsRepository>('GroupsRepository', [
+      'list',
+      'create',
+      'delete',
+      'subscribeAll',
+    ]);
 
-    // spy on load method to set mock data
-    spyOn(service, 'load').and.callFake(async () => {
-      (service as any)._groups.set(mockGroups);
+    TestBed.configureTestingModule({
+      providers: [GroupsService, { provide: GroupsRepository, useValue: repo }],
     });
 
-    // call load to initialize with mock data
-    service.load();
+    service = TestBed.inject(GroupsService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('should load groups from repository', async () => {
+    repo.list.and.resolveTo(mockGroups);
+
+    await service.load();
+
+    expect(service.groups()).toEqual(mockGroups);
+    expect(service.count()).toBe(3);
   });
 
-  it('should check if title already exists', () => {
+  it('should check if title already exists', async () => {
+    repo.list.and.resolveTo(mockGroups);
+    await service.load();
+
     expect(service.titleAlreadyExists('Item 1')).toBeTrue();
     expect(service.titleAlreadyExists('Item 4')).toBeFalse();
   });

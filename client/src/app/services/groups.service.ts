@@ -27,7 +27,7 @@ export class GroupsService {
   }
 
   async add(group: CreateGroupPayload) {
-    await this.groupsRepository.create(group);
+    return await this.groupsRepository.create(group);
   }
 
   async removeById(id: string) {
@@ -43,7 +43,7 @@ export class GroupsService {
     this.realtimeEnabled = true;
 
     from(
-      this.groupsRepository.subscribeAll((e: any) => {
+      this.groupsRepository.subscribeAll(e => {
         if (e.action === 'create') {
           const group = this.groupsRepository.toGroup(e.record as PbGroupRecord);
           this._groups.update(gs => [group, ...gs]);
