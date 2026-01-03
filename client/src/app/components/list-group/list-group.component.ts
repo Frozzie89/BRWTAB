@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { GroupsService } from '../../services/groups.service';
 
 @Component({
@@ -7,8 +7,12 @@ import { GroupsService } from '../../services/groups.service';
   templateUrl: './list-group.component.html',
   styleUrl: './list-group.component.scss',
 })
-export class ListGroupComponent {
-  groupsService = inject(GroupsService);
+export class ListGroupComponent implements OnInit {
+  private readonly groupsService = inject(GroupsService);
+  readonly listGroup = this.groupsService.groups;
 
-  listGroup = this.groupsService.groups;
+  ngOnInit() {
+    void this.groupsService.load();
+    this.groupsService.enableRealtime();
+  }
 }

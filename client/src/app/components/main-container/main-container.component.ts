@@ -1,7 +1,7 @@
 import { Component, HostListener, inject } from '@angular/core';
 import { ListGroupComponent } from '../list-group/list-group.component';
 import { NewGroupComponent } from '../new-group/new-group.component';
-import { ListGroupItem } from '../../interfaces/list-group-item';
+import { CreateGroupPayload, Group } from '../../interfaces/group';
 import { GroupsService } from '../../services/groups.service';
 
 @Component({
@@ -23,15 +23,8 @@ export class MainContainerComponent {
     this.isAdding = false;
   }
 
-  onCreate($event: ListGroupItem) {
+  onCreate($event: CreateGroupPayload) {
     this.groupsService.add($event);
     this.slideBack();
-  }
-
-  @HostListener('document:keydown.escape')
-  onEsc() {
-    if (this.isAdding) {
-      this.slideBack();
-    }
   }
 }

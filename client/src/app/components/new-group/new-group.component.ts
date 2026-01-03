@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { ListGroupItem } from '../../interfaces/list-group-item';
+import { CreateGroupPayload } from '../../interfaces/group';
 import { FormsModule } from '@angular/forms';
 import { GroupsService } from '../../services/groups.service';
 
@@ -12,16 +12,15 @@ import { GroupsService } from '../../services/groups.service';
 })
 export class NewGroupComponent {
   @Output() dismiss = new EventEmitter<void>();
-  @Output() create = new EventEmitter<ListGroupItem>();
+  @Output() create = new EventEmitter<CreateGroupPayload>();
 
-  groupsService = inject(GroupsService);
+  private readonly groupsService = inject(GroupsService);
 
   title = '';
   description = '';
   color = '#ffffffff';
-  icon: string | null = null;
-
-  private iconObjectUrl: string | null = null;
+  iconUrl: string | null = null;
+  iconFile: File | null = null;
 
   titleExists = (title: string) => this.groupsService.titleAlreadyExists(title);
 
@@ -30,7 +29,7 @@ export class NewGroupComponent {
       title: this.title,
       description: this.description,
       color: this.color,
-      icon: this.icon ?? '',
+      iconFile: this.iconFile,
     });
 
     this.cleanup();
@@ -42,38 +41,38 @@ export class NewGroupComponent {
   }
 
   cleanup() {
-    if (this.iconObjectUrl) {
-      URL.revokeObjectURL(this.iconObjectUrl);
-      this.iconObjectUrl = null;
+    if (this.iconUrl) {
+      URL.revokeObjectURL(this.iconUrl);
     }
 
-    this.icon = null;
     this.title = '';
     this.description = '';
     this.color = '#ffffffff';
+    this.iconUrl = null;
+    this.iconFile = null;
   }
 
-  onIconSelected(event: Event) {
+  onIconSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0] ?? null;
 
-    // cleanup previous URL
-    if (this.iconObjectUrl) {
-      URL.revokeObjectURL(this.iconObjectUrl);
-      this.iconObjectUrl = null;
+    // revoke previous preview
+    if (this.iconUrl) {
+      URL.revokeObjectURL(this.iconUrl);
+      this.iconUrl = null;
     }
 
     if (!file) {
-      this.icon = null;
+      this.iconUrl = null;
       return;
     }
 
     if (!file.type.startsWith('image/')) {
-      this.icon = null;
+      this.iconUrl = null;
       return;
     }
 
-    this.iconObjectUrl = URL.createObjectURL(file);
-    this.icon = this.iconObjectUrl;
+    this.iconFile = file;
+    this.iconUrl = URL.createObjectURL(file);
   }
 }
