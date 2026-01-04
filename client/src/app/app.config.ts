@@ -12,7 +12,12 @@ import { PocketbaseAuthService } from './services/pocketbase-auth.service';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes, withViewTransitions()),
+    provideRouter(
+      routes,
+      withViewTransitions({
+        skipInitialTransition: true,
+      }),
+    ),
     provideAppInitializer(() => {
       const auth = inject(PocketbaseAuthService);
       return auth.ensureDevAutoLogin();
