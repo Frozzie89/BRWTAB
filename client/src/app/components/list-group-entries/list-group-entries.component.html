@@ -1,3 +1,22 @@
 <div class="vt-entries">
-  <p>list-group-entries works!</p>
+  <div class="page-body">
+    @for (item of entries; track $index) {
+      <div class="entry">
+        <div class="voting">
+          <button class="bi bi bi-chevron-up"></button>
+          <p class="total-votes">{{ item.totalVotes }}</p>
+          <button class="bi bi bi-chevron-down"></button>
+        </div>
+        <p>{{ item.text }}</p>
+      </div>
+    }
+  </div>
+  <div class="page-footer">
+    <form (ngSubmit)="addEntry()" #groupForm="ngForm" class="form">
+      <input type="text" class="form-control" name="entryText" [(ngModel)]="newTextEntry" />
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Add Entry</button>
+      </div>
+    </form>
+  </div>
 </div>
