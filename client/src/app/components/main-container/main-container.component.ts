@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { ListGroupComponent } from '../list-group/list-group.component';
-import { CreateGroupPayload } from '../../interfaces/group';
 import { GroupsService } from '../../services/groups.service';
 import { Router } from '@angular/router';
 

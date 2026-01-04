@@ -1,5 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { CreateGroupPayload } from '../../interfaces/group';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GroupsService } from '../../services/groups.service';
 import { Router } from '@angular/router';
