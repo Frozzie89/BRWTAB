@@ -14,10 +14,6 @@ export class MainContainerComponent {
   private readonly groupsService = inject(GroupsService);
   private readonly router = inject(Router);
 
-  onCreate($event: CreateGroupPayload) {
-    this.groupsService.add($event);
-  }
-
   ToAddForm() {
     this.router.navigate(['/groups/new']);
   }
