@@ -1,5 +1,10 @@
-<nav>
-  <a routerLink="/"><img src="assets/images/PRWT_Logo_Banner.png" alt="PRWT_Logo_Banner" /></a>
-  <a routerLink="/about">About</a>
-  <a routerLink="/contact">Contact</a>
+<nav class="app-nav">
+  <a routerLink="/" class="app-nav__logo">
+    <img src="assets/images/PRWT_Logo_Banner.png" alt="PRWT logo" />
+  </a>
+
+  <div class="app-nav__links">
+    <a routerLink="/account" routerLinkActive="is-active">Account</a>
+    <a routerLink="/login" routerLinkActive="is-active">Login</a>
+  </div>
 </nav>
