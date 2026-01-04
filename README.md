@@ -40,7 +40,7 @@ pocketbase serve --dir database/pb_data/
 
 ### Note
 
-To login to the PocketBase admin panel, see logs when starting PocketBase, it will print a link with to create the first admin user.
+To login to the PocketBase admin panel, see logs when starting PocketBase. It will print out a link to create the first admin user.
 
 ## Run with Docker
 
