@@ -3,7 +3,6 @@ import {
   GroupEntriesRepository,
   PbGroupEntryRecord,
 } from '../repositories/group-entries-repository';
-import { Group } from '../interfaces/group';
 import { CreateGroupEntryPayload, GroupEntry } from '../interfaces/group-entry';
 import { from } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
