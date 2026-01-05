@@ -32,7 +32,8 @@ export class GroupEntriesRepository {
   }
 
   async create(data: CreateGroupEntryPayload): Promise<GroupEntry> {
-    return await this.pb.collection(this.collection).create<PbGroupEntryRecord>(data);
+    const created = await this.pb.collection(this.collection).create<PbGroupEntryRecord>(data);
+    return this.toGroupEntry(created);
   }
 
   delete(id: string): Promise<boolean> {

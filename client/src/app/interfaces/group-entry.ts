@@ -7,5 +7,5 @@ export interface GroupEntry {
 
 export interface CreateGroupEntryPayload {
   text: string;
-  groupId: string;
+  group_id: string;
 }

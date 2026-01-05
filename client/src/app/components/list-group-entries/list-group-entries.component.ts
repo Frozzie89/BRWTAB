@@ -34,7 +34,7 @@ export class ListGroupEntriesComponent {
     }
 
     this.groupEntriesService.add({
-      groupId: group.id,
+      group_id: group.id,
       text: this.newTextEntry,
     });
 
