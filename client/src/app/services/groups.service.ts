@@ -22,6 +22,14 @@ export class GroupsService {
     this._groups.set(list);
   }
 
+  async getById(id: string): Promise<Group> {
+    const group = this.groups().find(g => g.id === id);
+    if (!group) {
+      throw new Error(`Group with id ${id} not found`);
+    }
+    return group;
+  }
+
   titleAlreadyExists(title: string) {
     return this._groups().some(g => g.title === title);
   }
