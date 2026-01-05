@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 :host {
   view-transition-name: none;
   display: block;
@@ -5,6 +7,105 @@
 
 .vt-entries {
   view-transition-name: entries-page;
-  min-height: 100vh;
   background: #fff;
+  min-height: 89vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.entry {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+
+  .voting {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    button {
+      all: unset;
+      cursor: pointer;
+      font-size: 2rem;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+
+  p {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+}
+
+.page-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.page-footer {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  z-index: 10;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.form-control {
+  border: 3px solid $color-accent;
+  box-shadow: 4px 4px 0 $color-accent;
+  width: 80%;
+  padding: 0.75rem 0.9rem;
+  font-size: 1rem;
+  outline: none;
+  background-color: transparent;
+  transform: translate(0, 0);
+
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    border-color 120ms ease;
+}
+
+.form-control:focus {
+  transform: translate(-1px, -1px);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  width: 20%;
+
+  button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .entry {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .voting {
+      flex-direction: row;
+      gap: 1rem;
+    }
+  }
+
+  .form {
+    flex-direction: column;
+  }
+
+  .form-control,
+  .form-actions {
+    width: 100%;
+  }
 }
