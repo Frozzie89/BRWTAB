@@ -90,15 +90,16 @@
 
 .entry {
   padding: 1rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid $color-accent;
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 2rem;
 
   .voting {
     display: flex;
     flex-direction: column;
     align-items: center;
+
     button {
       all: unset;
       cursor: pointer;
@@ -111,6 +112,7 @@
   p {
     margin: 0;
     font-size: 1.2rem;
+    align-self: center;
   }
 }
 
@@ -118,6 +120,8 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .page-footer {
