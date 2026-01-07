@@ -1,7 +1,6 @@
 import { computed, DestroyRef, inject, Injectable, signal } from '@angular/core';
 import type { RecordModel } from 'pocketbase';
 import { PocketbaseClientService } from './pocketbase-client.service';
-import { environment } from '../../environments/environment';
 
 interface AuthState {
   isValid: boolean;
@@ -23,38 +22,30 @@ export class PocketbaseAuthService {
     this.destroyRef.onDestroy(() => unsubscribe());
   }
 
-  async ensureDevAutoLogin(): Promise<void> {
-    if (environment.production) {
-      return;
-    }
+  async loginWithOAuth2(): Promise<void> {
+    const response = await this.pb.collection('users').authWithOAuth2({
+      provider: 'discord',
+      scopes: ['identify'],
+    });
 
-    if (!environment.devAutoLogin.enabled) {
-      return;
-    }
+    const userId = this.pb.authStore.record?.id;
+    const raw = (response as any)?.meta?.rawUser;
 
-    if (this.pb.authStore.isValid) {
-      return;
-    }
-
-    const { email, password } = environment.devAutoLogin;
-
-    if (!email || !password) {
-      return;
-    }
+    if (!userId || !raw) return;
 
     try {
-      await this.loginWithCredentials(email, password);
+      const updated = await this.pb.collection('users').update(userId, {
+        discordId: raw.id,
+        handle: raw.username,
+        displayName: raw.global_name || raw.username,
+        role: 'user',
+      });
+
+      this.pb.authStore.save(this.pb.authStore.token, updated);
     } catch (err) {
-      console.warn('[DEV] Auto-login failed:', err);
+      console.error('User update after OAuth failed:', err);
+      throw err;
     }
-  }
-
-  async loginWithCredentials(email: string, password: string) {
-    return this.pb.collection('users').authWithPassword(email, password);
-  }
-
-  async loginWithOAuth2() {
-    throw new Error('OAuth2 login is not implemented yet.');
   }
 
   logout() {

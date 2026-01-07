@@ -5,7 +5,7 @@
 
   <div class="links">
     <a routerLink="/account" routerLinkActive="is-active">Account</a>
-    <a routerLink="/login" routerLinkActive="is-active"
+    <a (click)="auth.loginWithOAuth2()"
       >Login with <img src="assets/images/discord-icon.svg" alt="Discord logo" />
     </a>
   </div>
