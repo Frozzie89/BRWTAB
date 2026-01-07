@@ -1,4 +1,31 @@
 <div class="vt-entries">
+  <div class="page-header">
+    <div class="image-section">
+      <button
+        type="button"
+        class="return bi bi-arrow-left"
+        aria-label="Close panel"
+        [routerLink]="'/groups'"
+      ></button>
+
+      @if (group()?.iconUrl) {
+        <div class="image-container">
+          <img [src]="group()?.iconUrl" alt="list group image" />
+        </div>
+      }
+    </div>
+
+    <div class="text-section">
+      <h2 class="title prwt-logo-text">{{ group()?.title }}</h2>
+
+      @if (group()?.description) {
+        <div class="description" [style.backgroundColor]="group()?.color">
+          <p>{{ group()?.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+
   <div class="page-body">
     @for (item of groupEntries().slice().reverse(); track item.created) {
       <div class="entry">
@@ -11,6 +38,7 @@
       </div>
     }
   </div>
+
   <div class="page-footer">
     <form (ngSubmit)="addEntry()" #groupForm="ngForm" class="form">
       <input type="text" class="form-control" name="entryText" [(ngModel)]="newTextEntry" />
